@@ -63,3 +63,4 @@ FB_XOffset	= 0x18
 FB_YOffset	= 0x1C
 FB_Ptr		= 0x20
 FB_Size		= 0x24
+
