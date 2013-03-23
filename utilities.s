@@ -1,6 +1,16 @@
 	.include "raspi.inc"
 
-	.macro MEM_BARRIER
+	.macro CACHE_MCR reg, val1, val2=0
+	mcr	p15, 0, \reg, c7, \val1, \val2
+	.endm
+	
+	.macro MEM_BARRIER reg
+	mov	\reg, #0
+	CACHE_MCR \reg, c6	@Invalidate entire data cache
+	CACHE_MCR \reg, c10	@Clean entire data cache
+	CACHE_MCR \reg, c14	@Clean and invalidate entire data cache
+	CACHE_MCR \reg, c10, 4	@Data sync barrier
+	CACHE_MCR \reg, c10, 5	@Data memory barrier
 	.endm	
 
 	.globl	__print
@@ -42,7 +52,7 @@ _Linit_req_struct:
 	str	r1, [r3, #FB_Height_Virt]
 	str	r2, [r3, #FB_Depth]
 _Lcheck_mb_status:
-	MEM_BARRIER
+	MEM_BARRIER r2
 	ldr	r0, =MAILBOX_0
 	ldr	r1, [r0, #MAILBOX_Status]
 	tst	r1, #MAILBOX_Status_Full
@@ -56,11 +66,11 @@ _Lwrite_to_mb:
 
 
 _Lread_from_mb:	
-	MEM_BARRIER
+	MEM_BARRIER r2
 	ldr	r1, [r0, #MAILBOX_Status]
 	tst	r1, #MAILBOX_Status_Empty
 	bne	_Lread_from_mb
-	MEM_BARRIER
+	MEM_BARRIER r2
 	ldr	r1, [r0, #MAILBOX_Read]
 	tst	r1, #MB_Channel_Framebuffer
 	beq	_Lread_from_mb
