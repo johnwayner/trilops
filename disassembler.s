@@ -1,9 +1,3 @@
-	.macro CAT mask val handler
-	.word	\mask
-	.word	\val
-	.word	\handler
-	.endm
-
 	.extern __print
 	.text
 	.globl	__disassembler
@@ -46,26 +40,25 @@ _Lfind_cat_missing:
 
 categories:
 	@The order here is important as some cats are catch alls
-	CAT	0x0E000010, 0x00000000, _Lcat_data_proc
-	CAT	0x0F900010, 0x01000000, _Lcat_misc_1
-	CAT	0x0F900090, 0x01000010, _Lcat_misc_2
-	CAT	0x0E000090, 0x00000090, _Lcat_mult_xtra_ldstr
-	CAT	0x0E000090, 0x00000010, _Lcat_data_proc
-	CAT	0x0FB00000, 0x03000000, _Lcat_undef
-	CAT	0x0FB00000, 0x03200000, _Lcat_mov_imm_status
-	CAT	0x0E000000, 0x02000000, _Lcat_data_proc
-	CAT	0x0E000000, 0x04000000, _Lcat_ldstr_imm_offset
-	CAT	0x0E000010, 0x06000000, _Lcat_ldstr_reg_offset
-	CAT	0x0E000010, 0x60000010, _Lcat_media
-	CAT	0x0FF000F0, 0x07F000F0, _Lcat_undef
-	CAT	0x0E000000, 0x08000000, _Lcat_ldstr_mult
-	CAT	0x0E000000, 0x0A000000, _Lcat_bl
-	CAT	0x0E000000, 0x0C000000, _Lcat_copro_ldrstr
-	CAT	0x0F000010, 0x0E000000, _Lcat_copro_data_proc
-	CAT	0x0F000010, 0x0E000010, _Lcat_copro_reg_xfer
-	CAT	0x0F000000, 0x0F000000, _Lcat_swi
-
-	CAT	0xF0000000, 0xF0000000, _Lcat_uncond
+	.word	0x0E000010, 0x00000000, _Lcat_data_proc
+	.word	0x0F900010, 0x01000000, _Lcat_misc_1
+	.word	0x0F900090, 0x01000010, _Lcat_misc_2
+	.word	0x0E000090, 0x00000090, _Lcat_mult_xtra_ldstr
+	.word	0x0E000090, 0x00000010, _Lcat_data_proc
+	.word	0x0FB00000, 0x03000000, _Lcat_undef
+	.word	0x0FB00000, 0x03200000, _Lcat_mov_imm_status
+	.word	0x0E000000, 0x02000000, _Lcat_data_proc
+	.word	0x0E000000, 0x04000000, _Lcat_ldstr_imm_offset
+	.word	0x0E000010, 0x06000000, _Lcat_ldstr_reg_offset
+	.word	0x0E000010, 0x60000010, _Lcat_media
+	.word	0x0FF000F0, 0x07F000F0, _Lcat_undef
+	.word	0x0E000000, 0x08000000, _Lcat_ldstr_mult
+	.word	0x0E000000, 0x0A000000, _Lcat_bl
+	.word	0x0E000000, 0x0C000000, _Lcat_copro_ldrstr
+	.word	0x0F000010, 0x0E000000, _Lcat_copro_data_proc
+	.word	0x0F000010, 0x0E000010, _Lcat_copro_reg_xfer
+	.word	0x0F000000, 0x0F000000, _Lcat_swi
+	.word	0xF0000000, 0xF0000000, _Lcat_uncond
 	.word 	0xFFFFFFFF
 
 
