@@ -33,11 +33,14 @@ __boot:
 	mov	r2, #16			@This must be 16 to work in qemu at least.
 	bl	__setup_framebuffer
 	bl	__color_screen
+
+	adr	r0, __color_screen
+	bl	__disassembler
 	b	.
 
 booting:
 	.asciz	"Booting..."
-	
+
 	.align	2
 __color_screen:
 	add	r0, r0, r2
@@ -46,7 +49,8 @@ _Lloopty:
 	str	r3, [r0], #-4
 	cmp	r0, r2
 	bne	_Lloopty
-	bx	lr
+	mov	pc, lr
+
+	.word 	0 			@This is here to stop the disassembler
 
 
-	

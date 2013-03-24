@@ -19,8 +19,8 @@ SRC_DIR = src
 kernel.img: kernel.elf
 	${OBJCOPY} -O binary $< $@
 
-kernel.elf: trilops.ld reset.o utilities.o
-	${LD} ${LDFLAGS} -T trilops.ld reset.o utilities.o -o $@
+kernel.elf: trilops.ld reset.o utilities.o disassembler.o
+	${LD} ${LDFLAGS} -T trilops.ld reset.o utilities.o disassembler.o -o $@
 
 clean:
 	rm *.o *.img *.elf
