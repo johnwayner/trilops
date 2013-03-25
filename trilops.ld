@@ -8,6 +8,6 @@ SECTIONS
 	.data : { *(.data) }
 	.bss : { *(.bss) }
 	__heap_start__ = .;
-	. = 0x10000;
+	. = 0xFFFFFF;
 	__stack_start__ = .;
 }

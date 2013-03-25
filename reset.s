@@ -1,7 +1,7 @@
 	.include "raspi.inc"
 	
 	.section .reset
-	.global __reset
+	.globl __reset
 __reset:
 	b	__reset_handler
 	b	.
@@ -35,7 +35,9 @@ __boot:
 	bl	__color_screen
 
 	adr	r0, __color_screen
-	bl	__disassembler
+	ldr	r0, =UART0
+	mov	r1, #0x10000
+	bl	__xmodem_recv
 	b	.
 
 booting:
@@ -51,6 +53,7 @@ _Lloopty:
 	bne	_Lloopty
 	mov	pc, lr
 
+	addne	r1, r1, #4
 	.word 	0 			@This is here to stop the disassembler
 
 

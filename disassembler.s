@@ -74,14 +74,13 @@ _Lprint_cond:
 	bl	__print
 	pop	{pc}
 cond_opcodes:
-	.ascii	"EQ\0NE\0CS\0CC\0MI\0PL\0VS\0VC\0HI\0LS\0GE\0LT\0GT\0LE\0AL\0!!\0"
+	.ascii	"EQ\0NE\0CS\0CC\0MI\0PL\0VS\0VC\0HI\0LS\0GE\0LT\0GT\0LE\0\0\0\0!!\0"
 _Lcat_data_proc:
 	mov	r5, r0
 	mov	r6, r1
-	mov	r4, r1, lsr #21
-	and	r4, r4, #0xF
+	and	r4, r1, #0x01E00000
 	adr	r0, data_proc_opcodes
-	add	r0, r0, r4, lsl #2
+	add	r0, r0, r4, lsr #19
 	mov	r1, #0
 	bl	__print
 	mov	r1, r6

@@ -30,6 +30,17 @@ PL011_PCellID2	= 0xFF8
 PL011_PCellID3	= 0xFFC
 
 @
+@PL011 FR (status) masks
+@
+PL_Send_Empty	= 0x80
+PL_Recv_Full	= 0x40
+PL_Send_Full	= 0x20
+PL_Recv_Empty	= 0x10
+PL_Busy		= 0x08
+PL_CTS		= 0x01
+
+
+@
 @ Mailbox offsets
 @
 MAILBOX_Read	= 0x00
