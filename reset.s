@@ -16,8 +16,10 @@ __reset_handler:
 
 __init_uart0:	
 	ldr	r0, =UART0
-	mov	r1, #0x30		@9600 baud @ 7.3728Mhz
+	mov	r1, #0x1		@115200 baud @ 3Mhz
 	str	r1, [r0, #PL011_IBRD]
+	mov	r1, #41
+	str	r1, [r0, #PL011_FBRD]
 	mov	r1, #0x70
 	str	r1, [r0, #PL011_LCR_H]	@8-N-1
 	ldr	r1, [r0, #PL011_CR]
@@ -25,12 +27,13 @@ __init_uart0:
 	str	r1, [r0, #PL011_CR]
 
 __boot:
+	mov	r1, #1
 	adr	r0, booting
 	bl	__print
 	
-	mov	r0, #1024
-	mov	r1, #768
-	mov	r2, #16			@This must be 16 to work in qemu at least.
+	mov	r0, #1920
+	ldr	r1, =1080
+	mov	r2, #16
 	bl	__setup_framebuffer
 	bl	__color_screen
 
