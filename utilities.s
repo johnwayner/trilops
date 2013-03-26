@@ -83,6 +83,7 @@ _Lread_from_mb:
 @end __setup_framebuffer	
 
 	.align 4
+	.globl framebuffer_struct
 framebuffer_struct:
 	.skip	0x28
 
