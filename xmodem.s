@@ -1,5 +1,6 @@
 	.include "raspi.inc"
 
+	.extern framebuffer_struct
 	@
 	@ Xmodem-1k-CRC impl
 	@
@@ -14,6 +15,11 @@
 	.globl __xmodem_recv
 __xmodem_recv:
 	mov	r4, #0		@ Sequence tracker
+	ldr	r5, =framebuffer_struct
+	ldr	r8, [r5, #FB_Ptr]
+	mov	r9, #0
+	strh	r9, [r8], #2
+
 
 _Luart_ready:	
 	@ wait for uart to be ready
@@ -30,11 +36,13 @@ _Lsender_wait:
 	@ wait for sender
 	ldr	r3, [r0, #PL011_FR]
 	tst	r3, #PL_Recv_Empty
+	movne	r9, #0b0000000000011111
+	strneh	r9, [r8], #2
 	bne	_Lterrible_wait
 
 	@ read char to determine state
 	ldr	r3, [r0, #PL011_DR]
-	cmp	r3, #SOH		@Only support 1k
+	cmp	r3, #STX		@Only support 1k
 	beq	_Lread_packet
 	cmp	r3, #EOT
 	beq	_Ldone
@@ -43,8 +51,9 @@ _Lsender_wait:
 	@ or 3 otherwise?
 
 	@ some terrible waiting code
-_Lterrible_wait:	
-	mov	r3, #0x10000000
+_Lterrible_wait:
+
+	mov	r3, #0x1000000
 _Lterrible_wait_loop:
 	subs	r3, r3, #1
 	bne	_Lterrible_wait_loop
@@ -59,6 +68,9 @@ _Lread_packet:
 	@ r2 = free
 	@ r3 = free
 	@ r4 = expected seq number
+
+	mov	r9, #0b1111100000000000
+	strh	r9, [r8], #2
 _Lrp_sender_wait:
 	@ wait for sender
 	ldr	r2, [r0, #PL011_FR]
