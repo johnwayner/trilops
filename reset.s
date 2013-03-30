@@ -37,14 +37,32 @@ __boot:
 	bl	__setup_framebuffer
 	bl	__color_screen
 
-	adr	r0, __color_screen
+@ 	mov	r0, #0xF
+@ 	mov	r1, #1080 / 8 
+@ _Lrow:
+@ 	add	r0, r0, #1
+@ 	mov	r2, #1920 / 8 - 1
+@ _Lloop:	
+@ 	bl	__print_nibble_scr
+@ 	subs	r2, r2, #1
+@ 	bne	_Lloop
+@ 	subs	r1, r1, #1
+@ 	bne	_Lrow
+
+	adr	r0, booting
+	bl	__console_pr
+	adr	r0, longtext
+	bl	__console_pr
+
 	ldr	r0, =UART0
 	mov	r1, #0x10000
 	bl	__xmodem_recv
 	b	.
 
 booting:
-	.asciz	"Booting..."
+	.asciz	"Booting...\n"
+longtext:
+	.asciz	"abcdefghijklmnopqrstuvwxyz 0123456789 `(vec ~(stuff) ['a :a]) {:a 1, :b 2} /\ \"blah\" a|b !@#$%^&*-_+=<>?,.;\n\n"
 
 	.align	2
 __color_screen:
