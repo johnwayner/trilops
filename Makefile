@@ -1,6 +1,6 @@
 
 
-ARCH = arm-none-eabi
+ARCH = /opt/arm-none-eabi/bin/arm-none-eabi
 AS = ${ARCH}-as
 LD = ${ARCH}-ld
 OBJCOPY = ${ARCH}-objcopy
@@ -9,7 +9,7 @@ QEMU = qemu-system-arm -kernel kernel.elf -cpu arm1176 -m 512 -M raspi  -serial 
 
 DEBUG = -g
 
-ASFLAGS = -mcpu=arm1176jzf-s $(DEBUG) -Iraspi.inc
+ASFLAGS = -mcpu=arm1176jzf-s $(DEBUG)
 LDFLAGS = -nostdlib -static --error-unresolved-symbols
 SRC_DIR = src
 
@@ -23,7 +23,7 @@ kernel.elf: trilops.ld reset.o utilities.o disassembler.o
 	${LD} ${LDFLAGS} -T trilops.ld reset.o utilities.o disassembler.o -o $@
 
 clean:
-	rm *.o *.img *.elf
+	rm -f *.o *.img *.elf
 
 all: kernel.img
 

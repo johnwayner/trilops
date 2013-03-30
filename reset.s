@@ -37,12 +37,32 @@ __boot:
 	bl	__setup_framebuffer
 	bl	__color_screen
 
+@ 	mov	r0, #0xF
+@ 	mov	r1, #1080 / 8 
+@ _Lrow:
+@ 	add	r0, r0, #1
+@ 	mov	r2, #1920 / 8 - 1
+@ _Lloop:	
+@ 	bl	__print_nibble_scr
+@ 	subs	r2, r2, #1
+@ 	bne	_Lloop
+@ 	subs	r1, r1, #1
+@ 	bne	_Lrow
+
+	adr	r0, booting
+	bl	__console_pr
+	adr	r0, longtext
+	bl	__console_pr
+
+	b	.
 	adr	r0, __color_screen
 	bl	__disassembler
 	b	.
 
 booting:
-	.asciz	"Booting..."
+	.asciz	"Booting...\n"
+longtext:
+	.asciz	"Seoul, South Korea (CNN) -- North Korea's threatening rhetoric has reached a fever pitch, but the Pentagon and the South Korean government have said it's nothing new.\n\"We have no indications at this point that it's anything more than warmongering rhetoric,\" a senior Washington Defense official said late Friday.\nThe official was not authorized to speak to the media and asked not to be named.\nState media: North Korea in 'state of war' with South The National Security Council, which advises the U.S. president on matters of war, struck a similar cord. Washington finds North Korea's statements \"unconstructive,\" and it does take the threats seriously."
 
 	.align	2
 __color_screen:

@@ -1,6 +1,6 @@
 SECTIONS
 {
-	. = 0x0;
+	. = 0x0000;
 	.text : {
 	      *(.reset)
 	      *(.text)
@@ -8,6 +8,6 @@ SECTIONS
 	.data : { *(.data) }
 	.bss : { *(.bss) }
 	__heap_start__ = .;
-	. = 0x10000;
+	. = 0x100000;
 	__stack_start__ = .;
 }
